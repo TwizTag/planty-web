@@ -1,21 +1,21 @@
-.matriz {
+#matriz {
   display: grid;
-  grid-template-columns: repeat(10, 40px);
+  grid-template-columns: repeat(10, 1fr); /* 10 columnas iguales */
   gap: 5px;
-  margin-top: 20px;
+  max-width: 500px;
+  margin: 20px auto;
 }
-.celda {
-  width: 40px;
-  height: 40px;
-  background: #d0f0c0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+#matriz button {
+  padding: 15px;
+  font-size: 16px;
+  background-color: #c3f0ca;
+  border: 1px solid #999;
+  border-radius: 4px;
   cursor: pointer;
-  border: 1px solid #ccc;
-  font-size: 20px;
+  transition: background-color 0.2s;
 }
-.ocupado {
-  background: #8bc34a;
-  cursor: not-allowed;
+
+#matriz button:hover {
+  background-color: #a1e4ad;
 }
