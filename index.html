@@ -8,15 +8,22 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-   <h1>Bienvenido a Planty 🌱</h1>
-  <label for="cultivo">Elegí el cultivo:</label>
-<select id="cultivo">
-  <option value="Tomate">🍅 Tomate</option>
-  <option value="Lechuga">🥬 Lechuga</option>
-  <option value="Zanahoria">🥕 Zanahoria</option>
-</select>
+  <h1>Bienvenido a Planty 🌱</h1>
+
+  <!-- Selector de cultivo -->
+  <select id="cultivo">
+    <option value="Tomate">🍅 Tomate</option>
+    <option value="Lechuga">🥬 Lechuga</option>
+    <option value="Zanahoria">🥕 Zanahoria</option>
+  </select>
+
+  <!-- Botón para enviar -->
+  <button id="enviar">Enviar Datos</button>
+
+  <!-- Matriz -->
   <div id="matriz"></div>
+
+  <!-- SCRIPT: ahora al final -->
   <script src="planty.js"></script>
-  
 </body>
 </html>
