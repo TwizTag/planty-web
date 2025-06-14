@@ -1,0 +1,21 @@
+.matriz {
+  display: grid;
+  grid-template-columns: repeat(10, 40px);
+  gap: 5px;
+  margin-top: 20px;
+}
+.celda {
+  width: 40px;
+  height: 40px;
+  background: #d0f0c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  font-size: 20px;
+}
+.ocupado {
+  background: #8bc34a;
+  cursor: not-allowed;
+}
