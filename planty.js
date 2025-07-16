@@ -1,89 +1,44 @@
-// 🔐 Conexión Supabase
+// Supabase setup
 const SUPABASE_URL = 'https://zlfcigqpkrpikvurhibm.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Reemplazá si tenés una nueva key
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZmNpZ3Fwa3JwaWt2dXJoaWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTU2NTAsImV4cCI6MjA2NTQzMTY1MH0.PBHPTUAXix4g3LniLnPqbjnC5hkVTkPbUTGYOOrq14A';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const { createClient } = supabase;
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Detectar en qué página estoy
-window.addEventListener('DOMContentLoaded', () => {
-  if (window.location.pathname.includes('planty.html')) {
-    verificarSesion(); // solo accedés si estás logueado
-    document.getElementById('enviar')?.addEventListener('click', enviarDatos);
-    cargarCultivos();
-  } else {
-    document.querySelector('.login button')?.addEventListener('click', login);
-    document.querySelector('.signup button')?.addEventListener('click', registrarYLogin);
-  }
-});
-
-// ✅ Registro + login automático
-async function registrarYLogin(e) {
-  e.preventDefault();
-  const email = document.querySelector('.signup input[name="email"]').value;
-  const password = document.querySelector('.signup input[name="pswd"]').value;
-
-  const { error: signUpError } = await supabaseClient.auth.signUp({ email, password });
-  if (signUpError) {
-    alert('Error al registrarse: ' + signUpError.message);
-    return;
-  }
-
-  const { error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
-  if (loginError) {
-    alert('Registrado, pero error al iniciar sesión: ' + loginError.message);
-    return;
-  }
-
-  localStorage.setItem('planty_logged_in', 'true');
-  window.location.href = 'planty.html';
-}
-
-// ✅ Solo login
-async function login(e) {
-  e.preventDefault();
-  const email = document.querySelector('.login input[name="email"]').value;
-  const password = document.querySelector('.login input[name="pswd"]').value;
-
-  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-  if (error) {
-    alert('Error al iniciar sesión: ' + error.message);
-    return;
-  }
-
-  localStorage.setItem('planty_logged_in', 'true');
-  window.location.href = 'planty.html';
-}
-
-// ✅ Verificar sesión al cargar planty.html
-function verificarSesion() {
-  const loggedIn = localStorage.getItem('planty_logged_in');
-  if (!loggedIn) {
-    window.location.href = 'index.html';
-  }
-}
-
-// ✅ Logout (opcional)
-function logout() {
-  localStorage.removeItem('planty_logged_in');
-  window.location.href = 'index.html';
-}
-
-// ========== FUNCIONES MATRIZ PLANTINES ==========
+// Variables para manejar estados y datos
 const ocupados = new Map();
 const seleccionados = new Set();
 const tooltip = document.getElementById('tooltip');
 
+// Para mover el tooltip con el mouse
 document.addEventListener('mousemove', (e) => {
-  if (tooltip) {
+  if(tooltip) {
     tooltip.style.left = `${e.pageX + 10}px`;
     tooltip.style.top = `${e.pageY + 10}px`;
   }
 });
 
+// Función para obtener el user id del usuario logueado
+async function obtenerUserId() {
+  const { data: { user }, error } = await supabaseClient.auth.getUser();
+  if (error || !user) {
+    console.error('No se pudo obtener usuario:', error);
+    return null;
+  }
+  return user.id;
+}
+
+// Cargar cultivos del usuario logueado
 async function cargarCultivos() {
-  const { data, error } = await supabaseClient.from('plantines').select('*');
+  const userId = await obtenerUserId();
+  if (!userId) {
+    alert('No estás autenticado. Por favor inicia sesión.');
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from('plantines')
+    .select('*')
+    .eq('user_id', userId);
+
   if (error) {
     console.error('Error al cargar:', error);
     return;
@@ -98,6 +53,7 @@ async function cargarCultivos() {
   renderMatriz();
 }
 
+// Renderizar matriz con botones
 function renderMatriz() {
   const contenedor = document.getElementById('matriz');
   if (!contenedor) return;
@@ -117,11 +73,13 @@ function renderMatriz() {
 
         const cultivo = ocupados.get(key);
         boton.addEventListener('mouseenter', () => {
-          tooltip.textContent = `🌱 Cultivo: ${cultivo}\n📍 Posición: ${fila}, ${columna}`;
-          tooltip.style.display = 'block';
+          if (tooltip) {
+            tooltip.textContent = `🌱 Cultivo: ${cultivo}\n📍 Posición: ${fila}, ${columna}`;
+            tooltip.style.display = 'block';
+          }
         });
         boton.addEventListener('mouseleave', () => {
-          tooltip.style.display = 'none';
+          if (tooltip) tooltip.style.display = 'none';
         });
 
       } else if (seleccionados.has(key)) {
@@ -151,14 +109,23 @@ function renderMatriz() {
   }
 }
 
+// Enviar datos a Supabase con user_id
 async function enviarDatos() {
   const cultivo = document.getElementById('cultivo').value;
+  const userId = await obtenerUserId();
+
+  if (!userId) {
+    alert('Usuario no autenticado');
+    return;
+  }
+
   const datos = Array.from(seleccionados).map(pos => {
     const [fila, columna] = pos.split('-');
     return {
       fila: parseInt(fila),
       columna: parseInt(columna),
-      cultivo
+      cultivo,
+      user_id: userId
     };
   });
 
@@ -181,4 +148,64 @@ async function enviarDatos() {
     renderMatriz();
   }
 }
+
+// Función para manejar el registro de usuarios
+async function crearCuenta(email, password) {
+  const { data, error } = await supabaseClient.auth.signUp({ email, password });
+  if (error) {
+    alert('Error en registro: ' + error.message);
+    return false;
+  }
+  alert('Cuenta creada. Revisa tu email para confirmar.');
+  return true;
+}
+
+// Función para manejar login
+async function login(email, password) {
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if (error) {
+    alert('Error en login: ' + error.message);
+    return false;
+  }
+  return true;
+}
+
+// Manejamos eventos del DOM para login y registro
+window.addEventListener('DOMContentLoaded', () => {
+  // Si estamos en planty.html, cargamos cultivos y ponemos evento al botón
+  if (document.getElementById('enviar')) {
+    cargarCultivos();
+    document.getElementById('enviar').addEventListener('click', enviarDatos);
+  }
+
+  // Si estamos en la página login (index.html)
+  const formSignup = document.querySelector('.signup form');
+  const formLogin = document.querySelector('.login form');
+
+  if (formSignup && formLogin) {
+    formSignup.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = formSignup.email.value;
+      const password = formSignup.pswd.value;
+      const ok = await crearCuenta(email, password);
+      if (ok) {
+        // Login automático después de registro
+        const loginOk = await login(email, password);
+        if (loginOk) {
+          window.location.href = 'planty.html';
+        }
+      }
+    });
+
+    formLogin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = formLogin.email.value;
+      const password = formLogin.pswd.value;
+      const ok = await login(email, password);
+      if (ok) {
+        window.location.href = 'planty.html';
+      }
+    });
+  }
+});
 
