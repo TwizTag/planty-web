@@ -7,6 +7,14 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const ocupados = new Map(); // "fila-columna" => cultivo
 const seleccionados = new Set(); // celdas seleccionadas
 
+// Tooltip personalizado
+const tooltip = document.getElementById('tooltip');
+
+document.addEventListener('mousemove', (e) => {
+  tooltip.style.left = `${e.pageX + 10}px`;
+  tooltip.style.top = `${e.pageY + 10}px`;
+});
+
 // Cargar cultivos guardados desde Supabase
 async function cargarCultivos() {
   const { data, error } = await supabaseClient.from('plantines').select('*');
@@ -42,7 +50,14 @@ function renderMatriz() {
         boton.disabled = true;
 
         const cultivo = ocupados.get(key);
-        boton.title = `Cultivo: ${cultivo}\nPosición: ${fila}, ${columna}`;
+        boton.addEventListener('mouseenter', () => {
+          tooltip.textContent = `🌱 Cultivo: ${cultivo}\n📍 Posición: ${fila}, ${columna}`;
+          tooltip.style.display = 'block';
+        });
+        boton.addEventListener('mouseleave', () => {
+          tooltip.style.display = 'none';
+        });
+
       } else if (seleccionados.has(key)) {
         // ✅ Seleccionado para plantar
         boton.textContent = '✅';
