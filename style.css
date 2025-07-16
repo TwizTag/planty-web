@@ -1,13 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: sans-serif;
   background-color: #f0fdf4;
   margin: 0;
   padding: 20px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
-  box-sizing: border-box;
+  justify-content: center;
 }
 
 h1 {
@@ -37,13 +41,18 @@ h1 {
   cursor: pointer;
 }
 
+.matriz-wrapper {
+  width: 100%;
+  max-width: 480px; /* 60px x 8 columnas */
+  aspect-ratio: 8 / 9; /* 8 columnas x 9 filas */
+}
+
 #matriz {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(8, 1fr); /* 8 columnas */
   grid-gap: 6px;
   width: 100%;
-  max-width: 600px;
-  aspect-ratio: 1;
+  height: 100%;
 }
 
 #matriz button {
@@ -59,3 +68,4 @@ h1 {
 #matriz button:hover {
   filter: brightness(90%);
 }
+
