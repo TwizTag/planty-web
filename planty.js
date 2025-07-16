@@ -1,35 +1,35 @@
-// 🔑 Supabase
+// 🔐 Conexión Supabase
 const SUPABASE_URL = 'https://zlfcigqpkrpikvurhibm.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // TU KEY
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // Reemplazá si tenés una nueva key
 
-// 🌱 DOMContentLoaded
+const { createClient } = supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Detectar en qué página estoy
 window.addEventListener('DOMContentLoaded', () => {
-  // Detectá si estás en la pantalla de login o en la de Planty
   if (window.location.pathname.includes('planty.html')) {
-    verificarSesion(); // si no está logueado, redirige
+    verificarSesion(); // solo accedés si estás logueado
     document.getElementById('enviar')?.addEventListener('click', enviarDatos);
     cargarCultivos();
   } else {
-    // Login/Register
     document.querySelector('.login button')?.addEventListener('click', login);
     document.querySelector('.signup button')?.addEventListener('click', registrarYLogin);
   }
 });
 
+// ✅ Registro + login automático
 async function registrarYLogin(e) {
   e.preventDefault();
   const email = document.querySelector('.signup input[name="email"]').value;
   const password = document.querySelector('.signup input[name="pswd"]').value;
 
-  const { error: signUpError } = await supabase.auth.signUp({ email, password });
+  const { error: signUpError } = await supabaseClient.auth.signUp({ email, password });
   if (signUpError) {
     alert('Error al registrarse: ' + signUpError.message);
     return;
   }
 
-  // Loguear automáticamente
-  const { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
+  const { error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (loginError) {
     alert('Registrado, pero error al iniciar sesión: ' + loginError.message);
     return;
@@ -39,12 +39,13 @@ async function registrarYLogin(e) {
   window.location.href = 'planty.html';
 }
 
+// ✅ Solo login
 async function login(e) {
   e.preventDefault();
   const email = document.querySelector('.login input[name="email"]').value;
   const password = document.querySelector('.login input[name="pswd"]').value;
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
 
   if (error) {
     alert('Error al iniciar sesión: ' + error.message);
@@ -55,19 +56,21 @@ async function login(e) {
   window.location.href = 'planty.html';
 }
 
+// ✅ Verificar sesión al cargar planty.html
 function verificarSesion() {
   const loggedIn = localStorage.getItem('planty_logged_in');
   if (!loggedIn) {
-    window.location.href = 'index.html'; // redirige al login
+    window.location.href = 'index.html';
   }
 }
 
+// ✅ Logout (opcional)
 function logout() {
   localStorage.removeItem('planty_logged_in');
   window.location.href = 'index.html';
 }
 
-// ================== MATRIZ ======================
+// ========== FUNCIONES MATRIZ PLANTINES ==========
 const ocupados = new Map();
 const seleccionados = new Set();
 const tooltip = document.getElementById('tooltip');
@@ -80,7 +83,7 @@ document.addEventListener('mousemove', (e) => {
 });
 
 async function cargarCultivos() {
-  const { data, error } = await supabase.from('plantines').select('*');
+  const { data, error } = await supabaseClient.from('plantines').select('*');
   if (error) {
     console.error('Error al cargar:', error);
     return;
@@ -164,7 +167,7 @@ async function enviarDatos() {
     return;
   }
 
-  const { error } = await supabase.from('plantines').insert(datos);
+  const { error } = await supabaseClient.from('plantines').insert(datos);
 
   if (error) {
     alert('Error al enviar: ' + error.message);
