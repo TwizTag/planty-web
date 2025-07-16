@@ -146,12 +146,30 @@ async function enviarDatos() {
   }
 }
 
-async function crearCuenta(email, password) {
+// Función para crear cuenta y guardar username en tabla 'profiles'
+async function crearCuenta(email, password, username) {
   const { data, error } = await supabaseClient.auth.signUp({ email, password });
   if (error) {
     alert('Error en registro: ' + error.message);
     return false;
   }
+
+  const userId = data.user?.id;
+
+  if (!userId) {
+    alert('Error: no se pudo obtener user id');
+    return false;
+  }
+
+  const { error: profileError } = await supabaseClient
+    .from('profiles')
+    .insert([{ id: userId, username: username }]);
+
+  if (profileError) {
+    alert('Error al guardar perfil: ' + profileError.message);
+    return false;
+  }
+
   alert('Cuenta creada. Revisa tu email para confirmar.');
   return true;
 }
@@ -181,7 +199,8 @@ window.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const email = formSignup.email.value;
       const password = formSignup.password.value;
-      const ok = await crearCuenta(email, password);
+      const username = formSignup.username.value;
+      const ok = await crearCuenta(email, password, username);
       if (ok) {
         const loginOk = await login(email, password);
         if (loginOk) {
@@ -201,3 +220,4 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
