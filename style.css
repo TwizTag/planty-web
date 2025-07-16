@@ -16,6 +16,7 @@ body {
 
 h1 {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 #controles {
@@ -42,9 +43,9 @@ h1 {
 }
 
 .matriz-wrapper {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  max-width: 480px; /* 60px x 8 columnas */
-  aspect-ratio: 8 / 9; /* 8 columnas x 9 filas */
 }
 
 #matriz {
@@ -52,7 +53,8 @@ h1 {
   grid-template-columns: repeat(8, 1fr); /* 8 columnas */
   grid-gap: 6px;
   width: 100%;
-  height: 100%;
+  max-width: 480px; /* 60px x 8 columnas */
+  aspect-ratio: 8 / 9; /* 8 columnas por 9 filas */
 }
 
 #matriz button {
@@ -61,6 +63,7 @@ h1 {
   font-size: 14px;
   border: none;
   border-radius: 6px;
+  background-color: #d6f4ff;
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
