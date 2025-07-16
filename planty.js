@@ -1,24 +1,25 @@
-// Supabase setup
+// Configuración Supabase
 const SUPABASE_URL = 'https://zlfcigqpkrpikvurhibm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZmNpZ3Fwa3JwaWt2dXJoaWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTU2NTAsImV4cCI6MjA2NTQzMTY1MH0.PBHPTUAXix4g3LniLnPqbjnC5hkVTkPbUTGYOOrq14A';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Variables para manejar estados y datos
 const ocupados = new Map();
 const seleccionados = new Set();
 const tooltip = document.getElementById('tooltip');
 
-// Para mover el tooltip con el mouse
 document.addEventListener('mousemove', (e) => {
-  if(tooltip) {
+  if (tooltip) {
     tooltip.style.left = `${e.pageX + 10}px`;
     tooltip.style.top = `${e.pageY + 10}px`;
   }
 });
 
-// Función para obtener el user id del usuario logueado
 async function obtenerUserId() {
-  const { data: { user }, error } = await supabaseClient.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabaseClient.auth.getUser();
+
   if (error || !user) {
     console.error('No se pudo obtener usuario:', error);
     return null;
@@ -26,7 +27,6 @@ async function obtenerUserId() {
   return user.id;
 }
 
-// Cargar cultivos del usuario logueado
 async function cargarCultivos() {
   const userId = await obtenerUserId();
   if (!userId) {
@@ -45,7 +45,7 @@ async function cargarCultivos() {
   }
 
   ocupados.clear();
-  data.forEach(item => {
+  data.forEach((item) => {
     const key = `${item.fila}-${item.columna}`;
     ocupados.set(key, item.cultivo);
   });
@@ -53,7 +53,6 @@ async function cargarCultivos() {
   renderMatriz();
 }
 
-// Renderizar matriz con botones
 function renderMatriz() {
   const contenedor = document.getElementById('matriz');
   if (!contenedor) return;
@@ -81,7 +80,6 @@ function renderMatriz() {
         boton.addEventListener('mouseleave', () => {
           if (tooltip) tooltip.style.display = 'none';
         });
-
       } else if (seleccionados.has(key)) {
         boton.textContent = '✅';
         boton.style.backgroundColor = '#2196f3';
@@ -109,7 +107,6 @@ function renderMatriz() {
   }
 }
 
-// Enviar datos a Supabase con user_id
 async function enviarDatos() {
   const cultivo = document.getElementById('cultivo').value;
   const userId = await obtenerUserId();
@@ -119,13 +116,13 @@ async function enviarDatos() {
     return;
   }
 
-  const datos = Array.from(seleccionados).map(pos => {
+  const datos = Array.from(seleccionados).map((pos) => {
     const [fila, columna] = pos.split('-');
     return {
       fila: parseInt(fila),
       columna: parseInt(columna),
       cultivo,
-      user_id: userId
+      user_id: userId,
     };
   });
 
@@ -140,7 +137,7 @@ async function enviarDatos() {
     alert('Error al enviar: ' + error.message);
   } else {
     alert('Datos enviados correctamente 🌱');
-    datos.forEach(d => {
+    datos.forEach((d) => {
       const key = `${d.fila}-${d.columna}`;
       ocupados.set(key, d.cultivo);
     });
@@ -149,7 +146,6 @@ async function enviarDatos() {
   }
 }
 
-// Función para manejar el registro de usuarios
 async function crearCuenta(email, password) {
   const { data, error } = await supabaseClient.auth.signUp({ email, password });
   if (error) {
@@ -160,7 +156,6 @@ async function crearCuenta(email, password) {
   return true;
 }
 
-// Función para manejar login
 async function login(email, password) {
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error) {
@@ -170,27 +165,24 @@ async function login(email, password) {
   return true;
 }
 
-// Manejamos eventos del DOM para login y registro
 window.addEventListener('DOMContentLoaded', () => {
-  // Si estamos en planty.html, cargamos cultivos y ponemos evento al botón
+  // Para planty.html
   if (document.getElementById('enviar')) {
     cargarCultivos();
     document.getElementById('enviar').addEventListener('click', enviarDatos);
   }
 
-  // Si estamos en la página login (index.html)
-  const formSignup = document.querySelector('.signup form');
-  const formLogin = document.querySelector('.login form');
+  // Para index.html (login y registro)
+  const formSignup = document.getElementById('form-signup');
+  const formLogin = document.getElementById('form-login');
 
   if (formSignup && formLogin) {
     formSignup.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = formSignup.email.value;
-      const password = formSignup.password.value; // 'password', no 'pswd'
-
+      const password = formSignup.password.value;
       const ok = await crearCuenta(email, password);
       if (ok) {
-        // Login automático después de registro
         const loginOk = await login(email, password);
         if (loginOk) {
           window.location.href = 'planty.html';
@@ -201,7 +193,7 @@ window.addEventListener('DOMContentLoaded', () => {
     formLogin.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = formLogin.email.value;
-      const password = formLogin.pswd.value;
+      const password = formLogin.password.value;
       const ok = await login(email, password);
       if (ok) {
         window.location.href = 'planty.html';
@@ -209,4 +201,3 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
