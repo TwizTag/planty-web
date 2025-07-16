@@ -28,11 +28,11 @@ function renderMatriz() {
   const contenedor = document.getElementById('matriz');
   contenedor.innerHTML = '';
 
-  for (let fila = 0; fila < 10; fila++) {
+  for (let fila = 0; fila < 9; fila++) {
     const filaDiv = document.createElement('div');
     filaDiv.style.display = 'flex';
 
-    for (let columna = 0; columna < 10; columna++) {
+    for (let columna = 0; columna < 8; columna++) {
       const key = `${fila}-${columna}`;
       const boton = document.createElement('button');
       boton.textContent = ocupados.has(key) ? ocupados.get(key) : `${fila},${columna}`;
