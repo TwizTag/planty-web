@@ -49,7 +49,6 @@ h1 {
 }
 
 #matriz {
-  display: grid;
   grid-template-columns: repeat(8, 1fr); /* 8 columnas */
   grid-gap: 6px;
   width: 100%;
