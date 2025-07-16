@@ -55,7 +55,7 @@ h1 {
   grid-template-rows: repeat(8, 1fr);    /* 9 filas */
   gap: 6px;
   width: 100%;
-  max-width: 700px;
+  max-width: 450px;
   aspect-ratio: 9 / 9;
 }
 
