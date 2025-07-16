@@ -51,8 +51,8 @@ h1 {
 
 #matriz {
   display: grid;
-  grid-template-columns: repeat(8, 1fr); /* 8 columnas */
-  grid-template-rows: repeat(9, 1fr);    /* 9 filas */
+  grid-template-columns: repeat(9, 1fr); /* 8 columnas */
+  grid-template-rows: repeat(8, 1fr);    /* 9 filas */
   gap: 6px;
   width: 100%;
   max-width: 480px;
