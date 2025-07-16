@@ -51,7 +51,7 @@ function renderMatriz() {
 
         const cultivo = ocupados.get(key);
         boton.addEventListener('mouseenter', () => {
-          tooltip.textContent = `🌱 Cultivo: ${cultivo}\n📍 Posición: ${fila}, ${columna}`;
+          tooltip.textContent = `🌱 Cultivo: ${cultivo}\n 📍 Posición: ${fila}, ${columna}`;
           tooltip.style.display = 'block';
         });
         boton.addEventListener('mouseleave', () => {
