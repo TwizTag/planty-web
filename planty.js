@@ -30,7 +30,7 @@ function renderMatriz() {
 
   for (let fila = 0; fila < 8; fila++) {
     const filaDiv = document.createElement('div');
-    filaDiv.style.display = 'flex';
+    filaDiv.classList.add('fila');
 
     for (let columna = 0; columna < 9; columna++) {
       const key = `${fila}-${columna}`;
