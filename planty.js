@@ -125,3 +125,4 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('enviar').addEventListener('click', enviarDatos);
   cargarCultivos();
 });
+
