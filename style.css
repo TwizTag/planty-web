@@ -55,8 +55,8 @@ h1 {
   grid-template-rows: repeat(8, 1fr);    /* 9 filas */
   gap: 6px;
   width: 100%;
-  max-width: 480px;
-  aspect-ratio: 8 / 9;
+  max-width: 700px;
+  aspect-ratio: 9 / 9;
 }
 
 /* Botones */
