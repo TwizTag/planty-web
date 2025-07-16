@@ -186,7 +186,8 @@ window.addEventListener('DOMContentLoaded', () => {
     formSignup.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = formSignup.email.value;
-      const password = formSignup.pswd.value;
+      const password = formSignup.password.value; // 'password', no 'pswd'
+
       const ok = await crearCuenta(email, password);
       if (ok) {
         // Login automático después de registro
