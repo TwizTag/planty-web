@@ -43,7 +43,7 @@ h1 {
 }
 
 .matriz-wrapper {
-  display: flex;
+  display: grid;
   justify-content: center;
   width: 100%;
 }
