@@ -16,6 +16,9 @@ async function cargarCultivos() {
   try {
     const { data, error } = await supabaseClient.from('plantines').select('*');
     if (error) throw error;
+    console.log("📦 Datos cargados desde Supabase:", data);
+    console.log("🐛 Error (si hubo):", error);
+
 
     ocupados.clear();
     data.forEach(item => {
