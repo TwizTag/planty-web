@@ -1,14 +1,13 @@
+// Inicialización de Supabase
 const SUPABASE_URL = 'https://zlfcigqpkrpikvurhibm.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZmNpZ3Fwa3JwaWt2dXJoaWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTU2NTAsImV4cCI6MjA2NTQzMTY1MH0.PBHPTUAXix4g3LniLnPqbjnC5hkVTkPbUTGYOOrq14A'; // tu key real
-
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZmNpZ3Fwa3JwaWt2dXJoaWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTU2NTAsImV4cCI6MjA2NTQzMTY1MH0.PBHPTUAXix4g3LniLnPqbjnC5hkVTkPbUTGYOOrq14A';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Celdas ya guardadas en Supabase
-const ocupados = new Map(); // { "fila-columna": "cultivo" }
+// Estado local
+const ocupados = new Map(); // "fila-columna" => cultivo
+const seleccionados = new Set(); // celdas seleccionadas
 
-// Celdas seleccionadas para enviar
-const seleccionados = new Set(); // "fila-columna"
-
+// Cargar desde Supabase
 async function cargarCultivos() {
   const { data, error } = await supabaseClient.from('plantines').select('*');
   if (error) {
@@ -24,53 +23,49 @@ async function cargarCultivos() {
   renderMatriz();
 }
 
+// Dibujar matriz 8x9 usando grid
 function renderMatriz() {
   const contenedor = document.getElementById('matriz');
   contenedor.innerHTML = '';
 
-  for (let fila = 0; fila < 8; fila++) {
-    const filaDiv = document.createElement('div');
-    filaDiv.classList.add('fila');
-
-    for (let columna = 0; columna < 9; columna++) {
+  for (let fila = 0; fila < 9; fila++) {
+    for (let columna = 0; columna < 8; columna++) {
       const key = `${fila}-${columna}`;
       const boton = document.createElement('button');
-      boton.textContent = ocupados.has(key) ? ocupados.get(key) : `${fila},${columna}`;
       boton.dataset.pos = key;
-      boton.style.margin = '2px';
-      boton.style.width = '60px';
-      boton.style.height = '60px';
 
       if (ocupados.has(key)) {
+        boton.textContent = ocupados.get(key); // muestra el nombre del cultivo
         boton.style.backgroundColor = '#4caf50';
         boton.style.color = 'white';
         boton.disabled = true;
       } else if (seleccionados.has(key)) {
+        boton.textContent = '✅';
         boton.style.backgroundColor = '#2196f3';
         boton.style.color = 'white';
       } else {
+        boton.textContent = `${fila},${columna}`;
         boton.style.backgroundColor = '#e0f7fa';
         boton.style.color = 'black';
       }
 
       boton.addEventListener('click', () => {
-        if (ocupados.has(key)) return;
+        if (ocupados.has(key)) return; // no permitir seleccionar ocupados
 
         if (seleccionados.has(key)) {
           seleccionados.delete(key);
         } else {
           seleccionados.add(key);
         }
-        renderMatriz();
+        renderMatriz(); // redibuja todo
       });
 
-      filaDiv.appendChild(boton);
+      contenedor.appendChild(boton);
     }
-
-    contenedor.appendChild(filaDiv);
   }
 }
 
+// Enviar los datos a Supabase
 async function enviarDatos() {
   const cultivo = document.getElementById('cultivo').value;
 
@@ -99,6 +94,7 @@ async function enviarDatos() {
   }
 }
 
+// Iniciar
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('enviar').addEventListener('click', enviarDatos);
   cargarCultivos();
