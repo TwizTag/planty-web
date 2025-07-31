@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!user.email_confirmed_at) {
       alert("⚠️ Aún no confirmaste tu email. Revisá tu bandeja de entrada.");
+      await supabaseClient.auth.signOut();
       return;
     }
 
