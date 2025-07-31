@@ -205,8 +205,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       e.preventDefault();
       const email = signupForm.email.value;
       const password = signupForm.password.value;
-      const username = signupForm.username.value;
-      const ok = await crearCuenta(email, password, username);
+      const ok = await crearCuenta(email, password,);
       if (ok) {
         alert("Iniciá sesión desde el login una vez que confirmes el email.");
         window.location.href = "index.html";
