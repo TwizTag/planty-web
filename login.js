@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log("✅ Usuario logueado:", data.user.email);
   cargarCultivos(); // o lo que tengas que ejecutar
 
+  document.getElementById('logout').addEventListener('click', async () => {
+  await supabaseClient.auth.signOut();
+  window.location.href = "index.html"; // volver al login
+});
+
   const loginForm = document.querySelector('.login form');
   const signupForm = document.querySelector('.signup form');
 
