@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  console.log("✅ Usuario logueado:", data.user.email);
+  cargarCultivos(); // o lo que tengas que ejecutar
+
   const loginForm = document.querySelector('.login form');
   const signupForm = document.querySelector('.signup form');
 
