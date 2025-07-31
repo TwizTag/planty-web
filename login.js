@@ -6,6 +6,12 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 document.addEventListener('DOMContentLoaded', () => {
   console.log("✅ DOM listo, Supabase:", supabaseClient);
 
+  if (error || !data.user) {
+    // El usuario no está logueado → lo mando al login
+    window.location.href = "index.html"; // o donde tengas tu login
+    return;
+  }
+
   const loginForm = document.querySelector('.login form');
   const signupForm = document.querySelector('.signup form');
 
