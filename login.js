@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     alert("🎉 Sesión iniciada con éxito.");
     localStorage.setItem("planty_logged_in", "true");
-    window.location.href = "index.html"; // o planty.html si preferís
+    window.location.href = "login-planty.html"; // o planty.html si preferís
   });
 });
 
