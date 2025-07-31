@@ -1,15 +1,16 @@
+
 // ==============================
 // 🔧 CONFIGURACIÓN SUPABASE
 // ==============================
 const SUPABASE_URL = 'https://zlfcigqpkrpikvurhibm.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZmNpZ3Fwa3JwaWt2dXJoaWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTU2NTAsImV4cCI6MjA2NTQzMTY1MH0.PBHPTUAXix4g3LniLnPqbjnC5hkVTkPbUTGYOOrq14A'; // tu clave pública
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZmNpZ3Fwa3JwaWt2dXJoaWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTU2NTAsImV4cCI6MjA2NTQzMTY1MH0.PBHPTUAXix4g3LniLnPqbjnC5hkVTkPbUTGYOOrq14A';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ==============================
 // 👤 AUTENTICACIÓN
 // ==============================
 
-async function crearCuenta(email, password, username) {
+async function crearCuenta(email, password) {
   const { data, error } = await supabaseClient.auth.signUp({
     email,
     password,
@@ -20,19 +21,6 @@ async function crearCuenta(email, password, username) {
 
   if (error) {
     alert("❌ Error al registrar: " + error.message);
-    return false;
-  }
-
-  // Guardar el username en la tabla profiles
-  const userId = data.user?.id;
-  if (!userId) return false;
-
-  const { error: profileError } = await supabaseClient
-    .from('profiles')
-    .insert([{ id: userId, username }]);
-
-  if (profileError) {
-    alert('❌ Error al guardar perfil: ' + profileError.message);
     return false;
   }
 
@@ -50,13 +38,12 @@ async function login(email, password) {
 
   const user = data.user;
   if (!user.email_confirmed_at) {
-    alert("⚠️ Aún no confirmaste tu email.");
+    alert("⚠️ Aún no confirmaste tu email. Revisa la bandeja de entrada.");
     await supabaseClient.auth.signOut();
     return false;
   }
 
   alert("🎉 Sesión iniciada.");
-  window.location.href = 'login-planty.html'; // o 'planty.html'
   return true;
 }
 
@@ -69,7 +56,7 @@ async function obtenerUserId() {
 async function protegerPagina() {
   const { data: { user }, error } = await supabaseClient.auth.getUser();
   if (error || !user) {
-    window.location.href = 'index.html';
+    window.location.href = 'index.html'; // Redirige a login si no está autenticado
   }
 }
 
@@ -101,7 +88,10 @@ async function cargarCultivos() {
     .select('*')
     .eq('user_id', userId);
 
-  if (error) return;
+  if (error) {
+    console.error("Error al cargar cultivos:", error.message);
+    return;
+  }
 
   ocupados.clear();
   data.forEach(({ fila, columna, cultivo }) => {
@@ -163,9 +153,12 @@ function renderMatriz() {
 async function enviarDatos() {
   const cultivo = document.getElementById('cultivo').value;
   const userId = await obtenerUserId();
-  if (!userId) return;
+  if (!userId) {
+    alert("Usuario no autenticado");
+    return;
+  }
 
-  const datos = Array.from(seleccionados).map((pos) => {
+  const datos = Array.from(seleccionados).map(pos => {
     const [fila, columna] = pos.split('-');
     return {
       fila: parseInt(fila),
@@ -185,7 +178,7 @@ async function enviarDatos() {
     alert('Error al enviar: ' + error.message);
   } else {
     alert('Datos enviados correctamente 🌱');
-    datos.forEach((d) => ocupados.set(`${d.fila}-${d.columna}`, d.cultivo));
+    datos.forEach(d => ocupados.set(`${d.fila}-${d.columna}`, d.cultivo));
     seleccionados.clear();
     renderMatriz();
   }
@@ -205,7 +198,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       e.preventDefault();
       const email = signupForm.email.value;
       const password = signupForm.password.value;
-      const ok = await crearCuenta(email, password,);
+      const ok = await crearCuenta(email, password);
       if (ok) {
         alert("Iniciá sesión desde el login una vez que confirmes el email.");
         window.location.href = "index.html";
@@ -218,7 +211,10 @@ window.addEventListener('DOMContentLoaded', async () => {
       e.preventDefault();
       const email = loginForm.email.value;
       const password = loginForm.password.value;
-      await login(email, password);
+      const ok = await login(email, password);
+      if (ok) {
+        window.location.href = 'login-planty.html'; // o 'planty.html'
+      }
     });
   }
 
