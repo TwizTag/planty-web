@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       alert("Registrado correctamente ✅");
       localStorage.setItem("planty_logged_in", "true");
-      window.location.href = "planty.html";
+      window.location.href = "index.html";
     }
   });
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       alert("Sesión iniciada 🎉");
       localStorage.setItem("planty_logged_in", "true");
-      window.location.href = "planty.html";
+      window.location.href = "index.html";
     }
   });
 });
