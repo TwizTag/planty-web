@@ -188,8 +188,8 @@ async function enviarDatos() {
 // 🚀 INICIALIZACIÓN
 // ==============================
 window.addEventListener('DOMContentLoaded', async () => {
-  const signupForm = document.querySelector('#form-signup');
-  const loginForm = document.querySelector('#form-login');
+  const signupForm = document.querySelector('#register-form');
+  const loginForm = document.querySelector('#login-form');
   const enviarBtn = document.getElementById('enviar');
   const logoutBtn = document.getElementById('logout');
 
