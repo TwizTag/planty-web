@@ -75,7 +75,11 @@ button:hover{
 	transition: .8s ease-in-out;
 }
 .forgot{
-        margin-top: 10px;
+        display: block;
+        margin: 0 auto;
+        width: fit-content;
+        margin-top: 35px;
+}
 }
 .login label{
 	color: #573b8a;
