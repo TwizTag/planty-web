@@ -74,6 +74,9 @@ button:hover{
 	transform: translateY(-180px);
 	transition: .8s ease-in-out;
 }
+.forgot{
+        margin-top: 10px;
+}
 .login label{
 	color: #573b8a;
 	transform: scale(.6);
