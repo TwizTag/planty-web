@@ -1,0 +1,19 @@
+name: 🌱 Mantener Supabase vivo
+
+on:
+  schedule:
+    - cron: '0 12 */5 * *'  # Cada 5 días a las 12:00 UTC
+  workflow_dispatch:       # Para poder correrlo manualmente desde GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout del código
+        uses: actions/checkout@v3
+
+      - name: 🔧 Hacer el ping a Supabase
+        run: |
+          curl -X GET "https://zlfcigqpkrpikvurhibm.supabase.co/rest/v1/plantines?select=id&limit=1" \
+          -H "apikey: ${{ secrets.SUPABASE_API_KEY }}" \
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_API_KEY }}"
