@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -104,6 +106,7 @@ header {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
   max-width: 200px;
 }
+
 
 
 
