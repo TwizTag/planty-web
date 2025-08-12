@@ -15,8 +15,24 @@ body {
 }
 
 h1 {
-  margin-bottom: 20px;
-  text-align: center;
+    font-size: 24px;
+    margin-right: 850;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    color: white;
+    margin-left: 10px;
+}
+
+header {
+
+    width: 100%;
+    height: 60px;
+    background-color: #4CAF50;
+    display: flex;
+    padding-left: 10;
+    padding-top: 0px;
+    margin-bottom: 40px;
+
 }
 
 #controles {
@@ -88,6 +104,7 @@ h1 {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
   max-width: 200px;
 }
+
 
 
 
