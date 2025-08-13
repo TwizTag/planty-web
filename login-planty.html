@@ -1,34 +1,54 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Planty 🌱</title>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-  <script defer src="new_planty.js"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-  <h1>Planty 🌱</h1>
+    <h1>Planty 🌱</h1>
   </header>
-  <div id="controles">
-    <select id="cultivo">
-      <option value="Tomate">🍅 Tomate</option>
-      <option value="Lechuga">🥬 Lechuga</option>
-      <option value="Zanahoria">🥕 Zanahoria</option>
-    </select>
-    <button id="enviar">Enviar Datos</button>
-    <button id="logout">Cerrar sesión</button>
+  <div class="container">
+    <div class="matriz-wrapper">
+      <div id="matriz">
+        <!-- Aquí va tu matriz dinámica -->
+      </div>
+    </div>
 
+    <div class="panel-cultivos" id="panel-cultivos">
+      <div class="cultivo-item" data-cultivo="Tomate">
+        <div class="cultivo-nombre">🍅 Tomate</div>
+        <button class="toggle-info">➡️</button>
+      </div>
+      <div class="cultivo-info">
+        El tomate necesita sol directo, riego moderado y suelo bien drenado.
+      </div>
+
+      <div class="cultivo-item" data-cultivo="Lechuga">
+        <div class="cultivo-nombre">🥬 Lechuga</div>
+        <button class="toggle-info">➡️</button>
+      </div>
+      <div class="cultivo-info">
+        La lechuga prefiere temperaturas frescas y riego constante.
+      </div>
+
+      <div class="cultivo-item" data-cultivo="Zanahoria">
+        <div class="cultivo-nombre">🥕 Zanahoria</div>
+        <button class="toggle-info">➡️</button>
+      </div>
+      <div class="cultivo-info">
+        La zanahoria crece mejor en suelos sueltos y con riego moderado.
+      </div>
+
+      <div class="panel-footer">
+        <button id="enviar">Enviar Datos</button>
+        <button id="logout">Cerrar sesión</button>
+      </div>
+    </div>
   </div>
-
-  <div class="matriz-wrapper">
-    <div id="matriz"></div>
-  </div>
-
-  <div id="tooltip" class="tooltip" style="display: none;"></div>
-</body>
-</html>
-
