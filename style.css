@@ -238,34 +238,33 @@ h1 {
 
 
 
-
-
-
 .enviar-wrapper {
   width: 90%;
   max-width: 1200px;
   margin: 15px auto 40px auto;
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Centra horizontalmente */
 }
 
 #enviar {
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 12px 25px;
-  font-size: 1.2rem;
-  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 8px;
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 3px 6px rgba(76,175,80,0.6);
+  box-shadow: 0 3px 6px rgba(76, 175, 80, 0.6);
   transition: background-color 0.3s ease;
+  width: auto;   /* Que no se estire */
+  max-width: 200px;  /* Máximo ancho para que no sea gigante */
+  white-space: nowrap; /* Para que el texto no se corte ni rompa líneas */
 }
 
 #enviar:hover {
   background-color: #3b8e3b;
 }
-
 
 
 
