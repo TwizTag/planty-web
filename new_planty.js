@@ -192,6 +192,36 @@ window.addEventListener('DOMContentLoaded', async () => {
   const loginForm = document.querySelector('#login-form');
   const enviarBtn = document.getElementById('enviar');
   const logoutBtn = document.getElementById('logout');
+ 
+  // Selección de cultivo al hacer click en el nombre
+document.querySelectorAll('.cultivo-nombre').forEach(el => {
+  el.addEventListener('click', () => {
+    // Deseleccionar todos
+    document.querySelectorAll('.cultivo-nombre').forEach(n => n.classList.remove('selected'));
+
+    // Seleccionar el clickeado
+    el.classList.add('selected');
+
+    cultivoSeleccionado = el.parentElement.getAttribute('data-cultivo');
+    console.log('Cultivo seleccionado:', cultivoSeleccionado);
+  });
+});
+
+// Mostrar/ocultar info de cultivo al clickear la flecha
+document.querySelectorAll('.toggle-info').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Evita que dispare la selección del cultivo
+    const infoDiv = btn.parentElement.nextElementSibling;
+    if (infoDiv.style.display === 'block') {
+      infoDiv.style.display = 'none';
+      btn.textContent = '➡️';
+    } else {
+      infoDiv.style.display = 'block';
+      btn.textContent = '⬇️';
+    }
+  });
+});
+
 
   if (signupForm) {
     signupForm.addEventListener('submit', async (e) => {
