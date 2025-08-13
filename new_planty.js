@@ -5,6 +5,9 @@ const SUPABASE_URL = 'https://zlfcigqpkrpikvurhibm.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsZmNpZ3Fwa3JwaWt2dXJoaWJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4NTU2NTAsImV4cCI6MjA2NTQzMTY1MH0.PBHPTUAXix4g3LniLnPqbjnC5hkVTkPbUTGYOOrq14A';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const urlParams = new URLSearchParams(window.location.search);
+const modoDemo = urlParams.get('demo') === 'true';
+
 // ==============================
 // 👤 AUTENTICACIÓN
 // ==============================
@@ -84,6 +87,27 @@ document.addEventListener('mousemove', (e) => {
 });
 
 async function cargarCultivos() {
+
+  if (modoDemo) {
+    // En demo cargamos todos los plantines sin filtro
+    const { data, error } = await supabaseClient
+      .from('plantines')
+      .select('*');
+
+    if (error) {
+      console.error("Error al cargar cultivos:", error.message);
+      return;
+    }
+
+    ocupados.clear();
+    data.forEach(({ fila, columna, cultivo }) => {
+      ocupados.set(`${fila}-${columna}`, cultivo);
+    });
+
+    renderMatriz();
+    return;
+  }
+  
   const userId = await obtenerUserId();
   if (!userId) return;
 
