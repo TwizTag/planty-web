@@ -269,6 +269,69 @@ h1 {
 }
 
 
+/* --- Responsive para pantallas pequeñas --- */
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+    min-height: auto;
+    gap: 20px;
+  }
+
+  .matriz-wrapper,
+  .panel-cultivos {
+    flex: none;
+    width: 90vw;
+    max-width: 100%;
+    margin: 0 auto;
+    height: auto; /* Para que ajuste la altura al contenido */
+  }
+
+  #matriz {
+    max-width: 100%;
+    aspect-ratio: auto; /* Deja que se adapte */
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 4px;
+  }
+
+  #matriz button {
+    font-size: clamp(8px, 3vw, 14px);
+    padding: 6px 0;
+  }
+
+  .panel-cultivos {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+
+  .cultivo-nombre {
+    font-size: 1.1rem;
+  }
+
+  .toggle-info {
+    font-size: 1.1rem;
+  }
+
+  .enviar-wrapper {
+    width: 90vw;
+  }
+
+  #enviar {
+    max-width: 100%;
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 12px 0;
+  }
+
+  header {
+    width: 90vw;
+    padding: 10px 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}
 
 
 
