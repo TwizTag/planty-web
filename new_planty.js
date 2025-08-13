@@ -202,6 +202,24 @@ window.addEventListener('DOMContentLoaded', async () => {
   const enviarBtn = document.getElementById('enviar');
   const logoutBtn = document.getElementById('logout');
 
+  const userBtn = document.getElementById('user-btn');
+  const userDropdown = document.getElementById('user-dropdown');
+
+  if (userBtn && userDropdown) {
+    userBtn.addEventListener('click', () => {
+      userDropdown.classList.toggle('hidden');
+      userBtn.classList.toggle('active'); // Para girar flecha
+    });
+
+    // Opcional: para cerrar el dropdown si hacés click fuera
+    document.addEventListener('click', (e) => {
+      if (!userBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+        userDropdown.classList.add('hidden');
+        userBtn.classList.remove('active');
+      }
+    });
+  }
+
   // Selección de cultivo al hacer click en el nombre
   document.querySelectorAll('.cultivo-nombre').forEach(el => {
     el.addEventListener('click', () => {
