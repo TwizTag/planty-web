@@ -70,7 +70,7 @@ h1 {
 .user-dropdown {
   position: absolute;
   top: 130%;
-  right: 0;
+  left: -76px;
   background: white;
   border: 1px solid #4caf50;
   border-radius: 8px;
@@ -332,6 +332,7 @@ h1 {
     font-size: 24px;
   }
 }
+
 
 
 
