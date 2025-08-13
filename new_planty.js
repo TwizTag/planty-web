@@ -102,6 +102,7 @@ async function cargarCultivos() {
 }
 
 function renderMatriz() {
+  console.log("Renderizando matriz");
   const contenedor = document.getElementById('matriz');
   if (!contenedor) return;
   contenedor.innerHTML = '';
