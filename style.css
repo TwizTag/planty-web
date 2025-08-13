@@ -1,57 +1,130 @@
+/* Reset básico */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   font-family: 'Unbounded', cursive;
   background-color: #f0fdf4;
-  margin: 0;
-  padding: 0px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  padding: 20px 0; /* espacio arriba y abajo */
+  color: #333;
+}
+
+/* HEADER */
+
+header {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 8px rgb(76 175 80 / 0.5);
 }
 
 h1 {
-  font-size: 24px;
-  color: white;
-  margin-left: 10px;
-  margin-top: 21px;
+  font-size: 28px;
+  font-weight: 800;
+  user-select: none;
 }
 
-header {
-  width: 100%;
-  height: 75px;
-  background-color: #4CAF50;
+/* MENU USUARIO */
+
+.user-menu {
+  position: relative;
+}
+
+#user-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.7rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  padding-left: 10px;
-  margin-bottom: 40px;
+  gap: 6px;
+  user-select: none;
 }
 
-/* Contenedor principal con display flex para matriz + panel */
-.container {
-  display: flex;
-  width: 100%;
-  max-width: 95vw;
-  gap: 20px;
-  padding: 0 20px 20px;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: flex-start;
+#user-btn .arrow {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
 }
 
-/* Matriz a la izquierda */
-.matriz-wrapper {
-  flex: 1 1 60%;
-  border: 3px solid #4caf50;
-  border-radius: 12px;
+#user-btn.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown usuario */
+.user-dropdown {
+  position: absolute;
+  top: 130%;
+  right: 0;
+  background: white;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   padding: 10px;
-  background-color: white;
-  max-width: 480px;
+  z-index: 10;
+  min-width: 160px;
 }
+
+.user-dropdown.hidden {
+  display: none;
+}
+
+.user-dropdown button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  width: 100%;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.user-dropdown button:hover {
+  background-color: #3b8e3b;
+}
+
+/* MAIN CONTAINER: DIVIDE MITAD Y MITAD */
+
+.main-container {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  gap: 25px;
+  min-height: 70vh;
+}
+
+/* MATRIZ IZQUIERDA */
+
+.matriz-wrapper {
+  flex: 1 1 50%;
+  border: 3px solid #4caf50;
+  border-radius: 15px;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 6px rgb(76 175 80 / 0.3);
+}
+
+/* CUADRÍCULA BOTONES */
 
 #matriz {
   display: grid;
@@ -59,10 +132,12 @@ header {
   grid-template-rows: repeat(8, 1fr);
   gap: 6px;
   width: 100%;
+  max-width: 480px;
   aspect-ratio: 9 / 8;
 }
 
-/* Botones dentro de matriz */
+/* BOTONES MATRIZ */
+
 #matriz button {
   width: 100%;
   height: 100%;
@@ -72,29 +147,32 @@ header {
   background-color: #e0f7fa;
   cursor: pointer;
   transition: 0.2s ease-in-out;
+  user-select: none;
 }
 
 #matriz button:hover {
   filter: brightness(90%);
 }
 
-/* Panel derecho para cultivos */
+/* PANEL CULTIVOS DERECHA */
+
 .panel-cultivos {
-  flex: 0 0 40%;
-  max-width: 400px;
+  flex: 1 1 50%;
   border: 3px solid #4caf50;
-  border-radius: 12px;
+  border-radius: 15px;
   background-color: white;
-  padding: 10px;
-  box-sizing: border-box;
+  padding: 20px;
   overflow-y: auto;
+  user-select: none;
+  box-shadow: 0 2px 6px rgb(76 175 80 / 0.3);
   display: flex;
   flex-direction: column;
-  user-select: none;
-  max-height: 550px;
+  gap: 12px;
+  justify-content: flex-start;
 }
 
-/* Cada cultivo */
+/* ITEM CULTIVOS */
+
 .cultivo-item {
   display: flex;
   align-items: center;
@@ -106,8 +184,9 @@ header {
 
 .cultivo-nombre {
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   flex-grow: 1;
+  user-select: none;
 }
 
 .cultivo-nombre.selected {
@@ -115,7 +194,8 @@ header {
   font-weight: 800;
 }
 
-/* Botón para desplegar info */
+/* BOTON FLECHA INFO */
+
 .toggle-info {
   background: none;
   border: none;
@@ -126,45 +206,21 @@ header {
   user-select: none;
 }
 
-/* Info oculta inicialmente */
+/* INFO CULTIVOS OCULTA */
+
 .cultivo-info {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #333;
-  padding: 5px 10px;
+  padding: 8px 14px;
   display: none;
   background-color: #e6f2e6;
   border-radius: 8px;
-  margin-bottom: 10px;
-  line-height: 1.3;
+  margin-bottom: 8px;
+  line-height: 1.4;
 }
 
-/* Footer con botones enviar y logout */
-.panel-footer {
-  margin-top: auto;
-  padding-top: 10px;
-  border-top: 1px solid #ddd;
-  display: flex;
-  gap: 10px;
-}
+/* TOOLTIP */
 
-button {
-  flex: 1;
-  background-color: #4caf50;
-  border: none;
-  color: white;
-  font-weight: 700;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
-}
-
-button:hover {
-  background-color: #3b8e3b;
-}
-
-/* Tooltip para matriz (si lo usás) */
 .tooltip {
   position: absolute;
   background-color: #333;
@@ -176,9 +232,8 @@ button:hover {
   pointer-events: none;
   z-index: 999;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-  max-width: 200px;
+  max-width: 220px;
 }
-
 
 
 
