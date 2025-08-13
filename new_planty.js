@@ -1,4 +1,3 @@
-
 // ==============================
 // 🔧 CONFIGURACIÓN SUPABASE
 // ==============================
@@ -71,6 +70,7 @@ async function logout() {
 const ocupados = new Map();
 const seleccionados = new Set();
 const tooltip = document.getElementById('tooltip');
+let cultivoSeleccionado = null; // Variable global para el cultivo activo
 
 document.addEventListener('mousemove', (e) => {
   if (tooltip) {
@@ -137,6 +137,10 @@ function renderMatriz() {
 
       boton.addEventListener('click', () => {
         if (ocupados.has(key)) return;
+        if (!cultivoSeleccionado) {
+          alert('Por favor seleccioná un cultivo antes de elegir celdas.');
+          return;
+        }
         if (seleccionados.has(key)) {
           seleccionados.delete(key);
         } else {
@@ -151,7 +155,11 @@ function renderMatriz() {
 }
 
 async function enviarDatos() {
-  const cultivo = document.getElementById('cultivo').value;
+  if (!cultivoSeleccionado) {
+    alert('Seleccioná un cultivo antes de enviar datos.');
+    return;
+  }
+
   const userId = await obtenerUserId();
   if (!userId) {
     alert("Usuario no autenticado");
@@ -163,7 +171,7 @@ async function enviarDatos() {
     return {
       fila: parseInt(fila),
       columna: parseInt(columna),
-      cultivo,
+      cultivo: cultivoSeleccionado,
       user_id: userId,
     };
   });
@@ -192,36 +200,35 @@ window.addEventListener('DOMContentLoaded', async () => {
   const loginForm = document.querySelector('#login-form');
   const enviarBtn = document.getElementById('enviar');
   const logoutBtn = document.getElementById('logout');
- 
+
   // Selección de cultivo al hacer click en el nombre
-document.querySelectorAll('.cultivo-nombre').forEach(el => {
-  el.addEventListener('click', () => {
-    // Deseleccionar todos
-    document.querySelectorAll('.cultivo-nombre').forEach(n => n.classList.remove('selected'));
+  document.querySelectorAll('.cultivo-nombre').forEach(el => {
+    el.addEventListener('click', () => {
+      // Deseleccionar todos
+      document.querySelectorAll('.cultivo-nombre').forEach(n => n.classList.remove('selected'));
 
-    // Seleccionar el clickeado
-    el.classList.add('selected');
+      // Seleccionar el clickeado
+      el.classList.add('selected');
 
-    cultivoSeleccionado = el.parentElement.getAttribute('data-cultivo');
-    console.log('Cultivo seleccionado:', cultivoSeleccionado);
+      cultivoSeleccionado = el.parentElement.getAttribute('data-cultivo');
+      console.log('Cultivo seleccionado:', cultivoSeleccionado);
+    });
   });
-});
 
-// Mostrar/ocultar info de cultivo al clickear la flecha
-document.querySelectorAll('.toggle-info').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Evita que dispare la selección del cultivo
-    const infoDiv = btn.parentElement.nextElementSibling;
-    if (infoDiv.style.display === 'block') {
-      infoDiv.style.display = 'none';
-      btn.textContent = '➡️';
-    } else {
-      infoDiv.style.display = 'block';
-      btn.textContent = '⬇️';
-    }
+  // Mostrar/ocultar info de cultivo al clickear la flecha
+  document.querySelectorAll('.toggle-info').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Evita que dispare la selección del cultivo
+      const infoDiv = btn.parentElement.nextElementSibling;
+      if (infoDiv.style.display === 'block') {
+        infoDiv.style.display = 'none';
+        btn.textContent = '➡️';
+      } else {
+        infoDiv.style.display = 'block';
+        btn.textContent = '⬇️';
+      }
+    });
   });
-});
-
 
   if (signupForm) {
     signupForm.addEventListener('submit', async (e) => {
@@ -258,3 +265,4 @@ document.querySelectorAll('.toggle-info').forEach(btn => {
     logoutBtn.addEventListener('click', logout);
   }
 });
+
