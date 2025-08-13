@@ -53,6 +53,10 @@ async function obtenerUserId() {
 }
 
 async function protegerPagina() {
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('demo') === 'true') return; // Si está demo=true, no hace nada, deja pasar
+  
   const { data: { user }, error } = await supabaseClient.auth.getUser();
   if (error || !user) {
     window.location.href = 'index.html'; // Redirige a login si no está autenticado
