@@ -6,6 +6,7 @@
 }
 
 body {
+  margin-top: 35px;
   font-family: 'Unbounded', cursive;
   background-color: #f0fdf4;
   min-height: 100vh;
@@ -260,11 +261,13 @@ h1 {
   width: auto;   /* Que no se estire */
   max-width: 200px;  /* Máximo ancho para que no sea gigante */
   white-space: nowrap; /* Para que el texto no se corte ni rompa líneas */
+  margin-top: 10px;
 }
 
 #enviar:hover {
   background-color: #3b8e3b;
 }
+
 
 
 
