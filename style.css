@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
 }
@@ -16,68 +15,54 @@ body {
 }
 
 h1 {
-    font-size: 24px;
-    margin-right: 850;
-    margin-bottom: 20px;
-    font-family: Unbounded, cursive;
-    color: white;
-    margin-left: 10px; 
-    margin-top: 21px;
+  font-size: 24px;
+  color: white;
+  margin-left: 10px;
+  margin-top: 21px;
 }
 
 header {
-
-    width: 100%;
-    height: 75px;
-    background-color: #4CAF50;
-    display: flex;
-    padding-left: 10;
-    padding-top: 0px;
-    margin-bottom: 40px;
-
-}
-
-#controles {
+  width: 100%;
+  height: 75px;
+  background-color: #4CAF50;
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  margin-bottom: 40px;
 }
 
-#cultivo {
-  padding: 6px;
-  font-size: 16px;
-}
-
-#enviar {
-  padding: 6px 12px;
-  font-size: 16px;
-  background-color: #4caf50;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-}
-
-.matriz-wrapper {
+/* Contenedor principal con display flex para matriz + panel */
+.container {
+  display: flex;
   width: 100%;
   max-width: 95vw;
-  display: flex;
+  gap: 20px;
+  padding: 0 20px 20px;
+  box-sizing: border-box;
   justify-content: center;
+  align-items: flex-start;
+}
+
+/* Matriz a la izquierda */
+.matriz-wrapper {
+  flex: 1 1 60%;
+  border: 3px solid #4caf50;
+  border-radius: 12px;
+  padding: 10px;
+  background-color: white;
+  max-width: 480px;
 }
 
 #matriz {
   display: grid;
-  grid-template-columns: repeat(9, 1fr); /* 8 columnas */
-  grid-template-rows: repeat(8, 1fr);    /* 9 filas */
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   gap: 6px;
   width: 100%;
-  max-width: 450px;
-  aspect-ratio: 9 / 9;
+  aspect-ratio: 9 / 8;
 }
 
-/* Botones */
+/* Botones dentro de matriz */
 #matriz button {
   width: 100%;
   height: 100%;
@@ -93,6 +78,93 @@ header {
   filter: brightness(90%);
 }
 
+/* Panel derecho para cultivos */
+.panel-cultivos {
+  flex: 0 0 40%;
+  max-width: 400px;
+  border: 3px solid #4caf50;
+  border-radius: 12px;
+  background-color: white;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  max-height: 550px;
+}
+
+/* Cada cultivo */
+.cultivo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.cultivo-nombre {
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex-grow: 1;
+}
+
+.cultivo-nombre.selected {
+  color: #4caf50;
+  font-weight: 800;
+}
+
+/* Botón para desplegar info */
+.toggle-info {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: #4caf50;
+  padding: 0 10px;
+  user-select: none;
+}
+
+/* Info oculta inicialmente */
+.cultivo-info {
+  font-size: 0.9rem;
+  color: #333;
+  padding: 5px 10px;
+  display: none;
+  background-color: #e6f2e6;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+/* Footer con botones enviar y logout */
+.panel-footer {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  flex: 1;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+button:hover {
+  background-color: #3b8e3b;
+}
+
+/* Tooltip para matriz (si lo usás) */
 .tooltip {
   position: absolute;
   background-color: #333;
@@ -106,6 +178,8 @@ header {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
   max-width: 200px;
 }
+
+
 
 
 
