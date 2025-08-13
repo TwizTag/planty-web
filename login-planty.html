@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Planty 🌱</title>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script defer src="new_planty.js"></script>
@@ -12,14 +12,22 @@
 <body>
   <header>
     <h1>Planty 🌱</h1>
+    <div class="user-menu">
+      <button id="user-btn" aria-label="Usuario">
+        👤 <span class="arrow">▼</span>
+      </button>
+      <div id="user-dropdown" class="user-dropdown hidden">
+        <button id="logout">Cerrar sesión</button>
+      </div>
+    </div>
   </header>
 
-  <div class="container">
-    <div class="matriz-wrapper">
+  <main class="main-container">
+    <section class="matriz-wrapper">
       <div id="matriz"></div>
-    </div>
+    </section>
 
-    <div class="panel-cultivos" id="panel-cultivos">
+    <section class="panel-cultivos">
       <div class="cultivo-item" data-cultivo="Tomate">
         <div class="cultivo-nombre">🍅 Tomate</div>
         <button class="toggle-info">➡️</button>
@@ -43,13 +51,8 @@
       <div class="cultivo-info">
         La zanahoria crece mejor en suelos sueltos y con riego moderado.
       </div>
-
-      <div class="panel-footer">
-        <button id="enviar">Enviar Datos</button>
-        <button id="logout">Cerrar sesión</button>
-      </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <div id="tooltip" class="tooltip" style="display: none;"></div>
 </body>
