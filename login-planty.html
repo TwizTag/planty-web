@@ -9,16 +9,17 @@
     rel="stylesheet"
   />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="planty.js"></script>
 </head>
 <body>
   <header>
     <h1>Planty 🌱</h1>
   </header>
+
   <div class="container">
     <div class="matriz-wrapper">
-      <div id="matriz">
-        <!-- Aquí va tu matriz dinámica -->
-      </div>
+      <div id="matriz"></div>
     </div>
 
     <div class="panel-cultivos" id="panel-cultivos">
@@ -52,3 +53,8 @@
       </div>
     </div>
   </div>
+
+  <div id="tooltip" class="tooltip" style="display: none;"></div>
+</body>
+</html>
+
