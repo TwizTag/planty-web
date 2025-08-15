@@ -211,7 +211,7 @@ function renderMatriz() {
       });
 
       filaDiv.appendChild(boton);
-    
+    }
 
     contenedor.appendChild(filaDiv); // Solo al final de cada fila
   }
@@ -258,7 +258,7 @@ function renderMatriz() {
 
       contenedor.appendChild(boton);
     
-  }
+  
 
 
 async function enviarDatos() {
