@@ -164,8 +164,8 @@ function renderMatriz() {
   if (!contenedor) return;
   contenedor.innerHTML = '';
 
-  for (let fila = 0; fila < 8; fila++) {
-    for (let columna = 0; columna < 9; columna++) {
+  for (let columna = 0; columna < 9; columna++) {
+    for (let fila = 0; fila < 8; fila++) {
       const key = `${fila}-${columna}`; // 🔹 key definida aquí
       const boton = document.createElement("button");
       boton.dataset.fila = fila;
