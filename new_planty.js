@@ -163,11 +163,21 @@ function renderMatriz() {
   if (!contenedor) return;
   contenedor.innerHTML = '';
 
-  for (let fila = 0; fila < 8; fila++) {
-    for (let columna = 0; columna < 9; columna++) {
-      const key = `${fila}-${columna}`;
-      const boton = document.createElement('button');
-      boton.dataset.pos = key;
+ for (let fila = 0; fila < 8; fila++) {
+  const filaDiv = document.createElement("div");
+  filaDiv.classList.add("fila");
+  
+  for (let columna = 0; columna < 9; columna++) {
+    const celda = document.createElement("div");
+    celda.classList.add("celda");
+    celda.dataset.fila = fila + 1;
+    celda.dataset.columna = columna + 1;
+    filaDiv.appendChild(celda);
+  }
+  
+  contenedor.appendChild(filaDiv);
+}
+
 
       if (ocupados.has(key)) {
         boton.textContent = '❌';
