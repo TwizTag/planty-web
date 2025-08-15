@@ -173,7 +173,7 @@ function renderMatriz() {
     celda.dataset.fila = fila + 1;
     celda.dataset.columna = columna + 1;
     filaDiv.appendChild(celda);
-  }
+  
   
   contenedor.appendChild(filaDiv);
 
