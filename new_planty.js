@@ -163,12 +163,6 @@ function renderMatriz() {
   if (!contenedor) return;
   contenedor.innerHTML = '';
 
-function renderMatriz() {
-  console.log("Renderizando matriz");
-  const contenedor = document.getElementById('matriz');
-  if (!contenedor) return;
-  contenedor.innerHTML = '';
-
   for (let fila = 0; fila < 8; fila++) {
     const filaDiv = document.createElement("div");
     filaDiv.classList.add("fila");
