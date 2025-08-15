@@ -176,7 +176,7 @@ function renderMatriz() {
   }
   
   contenedor.appendChild(filaDiv);
-}
+
 
 
       if (ocupados.has(key)) {
