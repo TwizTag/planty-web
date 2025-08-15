@@ -157,6 +157,7 @@ async function cargarCultivos() {
   renderMatriz();
 }
 
+
 function renderMatriz() {
   console.log("Renderizando matriz");
   const contenedor = document.getElementById('matriz');
@@ -168,7 +169,7 @@ function renderMatriz() {
     filaDiv.classList.add("fila");
 
     for (let columna = 0; columna < 9; columna++) {
-      const key = `${fila}-${columna}`;
+      const key = `${fila}-${columna}`; // 🔹 key DEFINIDA AQUÍ ANTES DE USARLA
       const boton = document.createElement("button");
       boton.dataset.fila = fila;
       boton.dataset.columna = columna;
@@ -213,7 +214,7 @@ function renderMatriz() {
       filaDiv.appendChild(boton);
     }
 
-    contenedor.appendChild(filaDiv); // Solo al final de cada fila
+    contenedor.appendChild(filaDiv);
   }
 }
 
