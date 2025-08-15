@@ -165,11 +165,8 @@ function renderMatriz() {
   contenedor.innerHTML = '';
 
   for (let fila = 0; fila < 8; fila++) {
-    const filaDiv = document.createElement("div");
-    filaDiv.classList.add("fila");
-
     for (let columna = 0; columna < 9; columna++) {
-      const key = `${fila}-${columna}`; // 🔹 key DEFINIDA AQUÍ ANTES DE USARLA
+      const key = `${fila}-${columna}`; // 🔹 key definida aquí
       const boton = document.createElement("button");
       boton.dataset.fila = fila;
       boton.dataset.columna = columna;
@@ -211,53 +208,11 @@ function renderMatriz() {
         renderMatriz();
       });
 
-      filaDiv.appendChild(boton);
+      contenedor.appendChild(boton);
     }
-
-    contenedor.appendChild(filaDiv);
   }
 }
 
-
-
-      if (ocupados.has(key)) {
-        boton.textContent = '❌';
-        boton.style.backgroundColor = '#4caf50';
-        boton.style.color = 'white';
-        boton.disabled = true;
-
-        boton.addEventListener('mouseenter', () => {
-          tooltip.textContent = `🌱 Cultivo: ${ocupados.get(key)}\n📍 Posición: ${fila}, ${columna}`;
-          tooltip.style.display = 'block';
-        });
-        boton.addEventListener('mouseleave', () => {
-          tooltip.style.display = 'none';
-        });
-      } else if (seleccionados.has(key)) {
-        boton.textContent = '✅';
-        boton.style.backgroundColor = '#2196f3';
-        boton.style.color = 'white';
-      } else {
-        boton.textContent = `${fila},${columna}`;
-        boton.style.backgroundColor = '#e0f7fa';
-        boton.style.color = 'black';
-      }
-
-      boton.addEventListener('click', () => {
-        if (ocupados.has(key)) return;
-        if (!cultivoSeleccionado) {
-          alert('Por favor seleccioná un cultivo antes de elegir celdas.');
-          return;
-        }
-        if (seleccionados.has(key)) {
-          seleccionados.delete(key);
-        } else {
-          seleccionados.add(key);
-        }
-        renderMatriz();
-      });
-
-      contenedor.appendChild(boton);
     
   
 
