@@ -168,11 +168,10 @@ function renderMatriz() {
     filaDiv.classList.add("fila");
 
     for (let columna = 0; columna < 9; columna++) {
-      const key = `${fila + 1}-${columna + 1}`;
+      const key = `${fila}-${columna}`;
       const boton = document.createElement("button");
-      boton.classList.add("celda");
-      boton.dataset.fila = fila + 1;
-      boton.dataset.columna = columna + 1;
+      boton.dataset.fila = fila;
+      boton.dataset.columna = columna;
 
       if (ocupados.has(key)) {
         boton.textContent = '❌';
@@ -214,7 +213,7 @@ function renderMatriz() {
       filaDiv.appendChild(boton);
     }
 
-    contenedor.appendChild(filaDiv);
+    contenedor.appendChild(filaDiv); // Solo al final de cada fila
   }
 }
 
