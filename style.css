@@ -129,12 +129,12 @@ h1 {
 
 #matriz {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(9, 1fr);
   gap: 6px;
   width: 100%;
   max-width: 480px;
-  aspect-ratio: 9 / 8;
+  aspect-ratio: 8 / 9;
 }
 
 /* BOTONES MATRIZ */
@@ -332,6 +332,7 @@ h1 {
     font-size: 24px;
   }
 }
+
 
 
 
