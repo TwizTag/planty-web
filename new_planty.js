@@ -257,9 +257,9 @@ function renderMatriz() {
       });
 
       contenedor.appendChild(boton);
-    }
-  }
-}
+    
+  
+
 
 async function enviarDatos() {
   if (!cultivoSeleccionado) {
