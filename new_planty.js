@@ -13,6 +13,22 @@ const modoDemo = urlParams.get('demo') === 'true';
 // ==============================
 
 async function crearCuenta(email, password) {
+  // 1️⃣ Verificar si ya existe un usuario en la tabla usuario_permitido
+  const { data: usuarios, error: errorConsulta } = await supabaseClient
+    .from('usuario_permitido')
+    .select('*');
+
+  if (errorConsulta) {
+    alert("❌ Error al verificar usuario permitido: " + errorConsulta.message);
+    return false;
+  }
+
+  if (usuarios.length > 0) {
+    alert("🚫 Ya existe un usuario registrado. No se permiten más cuentas.");
+    return false;
+  }
+
+  // 2️⃣ Registrar usuario en Auth
   const { data, error } = await supabaseClient.auth.signUp({
     email,
     password,
@@ -26,9 +42,21 @@ async function crearCuenta(email, password) {
     return false;
   }
 
+  // 3️⃣ Insertar en usuario_permitido para marcarlo como único autorizado
+  const user = data.user;
+  const { error: errorInsert } = await supabaseClient
+    .from('usuario_permitido')
+    .insert([{ id: user.id, email: user.email }]);
+
+  if (errorInsert) {
+    alert("❌ Error al guardar usuario permitido: " + errorInsert.message);
+    return false;
+  }
+
   alert("✅ Cuenta creada. Confirmá tu email.");
   return true;
 }
+
 
 async function login(email, password) {
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
