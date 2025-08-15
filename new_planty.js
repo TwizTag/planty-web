@@ -163,19 +163,66 @@ function renderMatriz() {
   if (!contenedor) return;
   contenedor.innerHTML = '';
 
- for (let fila = 0; fila < 8; fila++) {
-  const filaDiv = document.createElement("div");
-  filaDiv.classList.add("fila");
-  
-  for (let columna = 0; columna < 9; columna++) {
-    const celda = document.createElement("div");
-    celda.classList.add("celda");
-    celda.dataset.fila = fila + 1;
-    celda.dataset.columna = columna + 1;
-    filaDiv.appendChild(celda);
-  
-  
-  contenedor.appendChild(filaDiv);
+function renderMatriz() {
+  console.log("Renderizando matriz");
+  const contenedor = document.getElementById('matriz');
+  if (!contenedor) return;
+  contenedor.innerHTML = '';
+
+  for (let fila = 0; fila < 8; fila++) {
+    const filaDiv = document.createElement("div");
+    filaDiv.classList.add("fila");
+
+    for (let columna = 0; columna < 9; columna++) {
+      const key = `${fila + 1}-${columna + 1}`;
+      const boton = document.createElement("button");
+      boton.classList.add("celda");
+      boton.dataset.fila = fila + 1;
+      boton.dataset.columna = columna + 1;
+
+      if (ocupados.has(key)) {
+        boton.textContent = '❌';
+        boton.style.backgroundColor = '#4caf50';
+        boton.style.color = 'white';
+        boton.disabled = true;
+
+        boton.addEventListener('mouseenter', () => {
+          tooltip.textContent = `🌱 Cultivo: ${ocupados.get(key)}\n📍 Posición: ${fila + 1}, ${columna + 1}`;
+          tooltip.style.display = 'block';
+        });
+        boton.addEventListener('mouseleave', () => {
+          tooltip.style.display = 'none';
+        });
+      } else if (seleccionados.has(key)) {
+        boton.textContent = '✅';
+        boton.style.backgroundColor = '#2196f3';
+        boton.style.color = 'white';
+      } else {
+        boton.textContent = `${fila + 1},${columna + 1}`;
+        boton.style.backgroundColor = '#e0f7fa';
+        boton.style.color = 'black';
+      }
+
+      boton.addEventListener('click', () => {
+        if (ocupados.has(key)) return;
+        if (!cultivoSeleccionado) {
+          alert('Por favor seleccioná un cultivo antes de elegir celdas.');
+          return;
+        }
+        if (seleccionados.has(key)) {
+          seleccionados.delete(key);
+        } else {
+          seleccionados.add(key);
+        }
+        renderMatriz();
+      });
+
+      filaDiv.appendChild(boton);
+    }
+
+    contenedor.appendChild(filaDiv);
+  }
+}
 
 
 
