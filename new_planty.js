@@ -129,7 +129,7 @@ async function cargarCultivos() {
 
     ocupados.clear();
     data.forEach(({ fila, columna, cultivo }) => {
-      ocupados.set(`${fila}-${columna}`, cultivo);
+      ocupados.set(`${fila - 1}-${columna - 1}`, cultivo);
     });
 
     renderMatriz();
