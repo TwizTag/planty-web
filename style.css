@@ -289,8 +289,8 @@ h1 {
   #matriz {
     max-width: 100%;
     aspect-ratio: auto; /* Deja que se adapte */
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(9, 1fr);
     gap: 4px;
   }
 
@@ -332,6 +332,7 @@ h1 {
     font-size: 24px;
   }
 }
+
 
 
 
