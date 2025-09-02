@@ -232,8 +232,8 @@ async function enviarDatos() {
   const datos = Array.from(seleccionados).map(pos => {
   const [fila, columna] = pos.split('-');
     return {
-      fila: parseInt(fila) + 1,
-      columna: parseInt(columna) + 1,
+      fila: parseInt(fila),
+      columna: parseInt(columna),
       cultivo: cultivoSeleccionado,
       user_id: userId,
     };
