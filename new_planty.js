@@ -230,14 +230,16 @@ async function enviarDatos() {
   }
 
   const datos = Array.from(seleccionados).map(pos => {
-    const [fila, columna] = pos.split('-');
-    return {
-      fila: parseInt(fila),
-      columna: parseInt(columna),
-      cultivo: cultivoSeleccionado,
-      user_id: userId,
-    };
-  });
+  const boton = document.querySelector(`[data-pos='${pos}']`);
+  const fila = parseInt(boton.dataset.fila);       // ya empieza en 1
+  const columna = parseInt(boton.dataset.columna); // ya empieza en 1
+  return {
+    fila: fila,
+    columna: columna,
+    cultivo: cultivoSeleccionado,
+    user_id: userId,
+  };
+});
 
   if (datos.length === 0) {
     alert('¡No seleccionaste ninguna celda!');
